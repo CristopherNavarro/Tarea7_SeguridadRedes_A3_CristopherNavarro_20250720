@@ -1,0 +1,50 @@
+================================================================================
+INSTITUTO TECNOLÓGICO DE LAS AMÉRICAS (ITLA)
+ÁREA DE REDES Y CIBERSEGURIDAD
+ASIGNATURA: SEGURIDAD DE REDES
+DOCENTE: JONATHAN ESTEBAN RONDÓN CORNIEL
+================================================================================
+
+DATOS DEL ESTUDIANTE:
+Estudiante: Cristopher Navarro
+Matrícula:  2025-0720
+Asignación: Semana 7 - Asignación 3 (Monitoreo de Infraestructura de Red con SNMP y NMS Zabbix)
+Fecha:      05 de Noviembre de 2026
+
+--------------------------------------------------------------------------------
+ENLACES OFICIALES DE ENTREGA:
+--------------------------------------------------------------------------------
+1. ENLACE DEL VIDEO DEMOSTRATIVO (YOUTUBE):
+   https://youtu.be/p-QA-Hp6WZ4
+
+2. ENLACE DEL REPOSITORIO DE GITHUB:
+   https://github.com/CristopherNavarro/Tarea7_SeguridadRedes_A3_CristopherNavarro_20250720
+
+--------------------------------------------------------------------------------
+RESUMEN EJECUTIVO DE LA IMPLEMENTACIÓN TÉCNICA:
+--------------------------------------------------------------------------------
+En esta práctica implementé un esquema robusto de gestión y monitoreo centralizado de red basado en el protocolo SNMPv2c y el NMS Zabbix, aplicando principios estrictos de ciberseguridad y el direccionamiento institucional asignado en base a mi matrícula (2025-0720 -> 10.25.7.0/24):
+
+1. Router R1 (Cisco 7200):
+   - Configuración de la interfaz FastEthernet0/0 con la IP 10.25.7.1/24 como Default Gateway.
+   - Implementación del Servidor DHCP para la red local (Pool "LAN_SEGURIDAD", red 10.25.7.0/24).
+   - Aplicación de exclusión estricta de las primeras 9 direcciones (10.25.7.1 - 10.25.7.9) para infraestructura crítica y dispositivos fijos.
+   - Hardening SNMPv2c: Configuración de comunidad Read-Only ("itla-snmp RO"), eliminando cualquier permiso de escritura ("RW") para mitigar riesgos de alteración o ataques de Denegación de Servicio (DoS).
+   - Metadatos de auditoría institucional: Contacto "Cristopher_Navarro_2025-0720" y Ubicación "ITLA-Seguridad-Redes".
+
+2. Switch SW1 (Cisco IOSvL2):
+   - Configuración de interfaz de administración SVI Vlan1 con la IP 10.25.7.2/24 y Default Gateway 10.25.7.1.
+   - Hardening de puertos de acceso (Gi0/0 - Gi0/3) con Spanning-Tree PortFast Edge.
+   - Hardening SNMPv2c con comunidad de solo lectura ("itla-snmp RO") y metadatos institucionales de auditoría.
+
+3. Clientes DHCP de la Red LAN:
+   - Estación de trabajo PC1 (VPCS): Obtuvo dinámicamente la IP 10.25.7.10/24 vía DHCP con gateway 10.25.7.1.
+   - Servidor Zabbix (Appliance Docker): Operó en modo cliente DHCP mediante udhcpc, obteniendo automáticamente la IP 10.25.7.11/24.
+
+4. NMS Zabbix Web GUI y Auditoría Telemétrica:
+   - Registro y monitoreo de R1-Cisco7200 (10.25.7.1) y SW1-IOSvL2 (10.25.7.2) en el grupo "Dispositivos de Red" mediante plantillas SNMP.
+   - Indicador de disponibilidad SNMP en estado VERDE brillante para ambos dispositivos.
+   - Recolección activa y en tiempo real de telemetría de red: Uptime del sistema, sondeo ICMP Ping (disponibilidad 100%, 0% pérdida), latencias de respuesta, System Object ID empresarial de Cisco y estadísticas de tráfico en interfaces.
+
+En el repositorio de GitHub se encuentra la documentación técnica detallada en el archivo README.md con diagramas de arquitectura, tablas de direccionamiento, justificación de seguridad, evidencias fotográficas paso a paso, archivos de configuración running-config exportados y el proyecto portable de GNS3.
+================================================================================
